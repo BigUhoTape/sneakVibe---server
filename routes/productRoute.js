@@ -6,7 +6,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const products = await  Product.find();
-    res.json({products});
+    return res.json({products});
   } catch (e) {
     console.log(e);
   }
