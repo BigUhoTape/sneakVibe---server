@@ -73,13 +73,9 @@ router.post('/signup', async (req, res, next) => {
   try {
     await User.findOne({email: req.body.email}, async (err, user) => {
       if (err) return res.status(500).json({error: 'server error'});
-      if (!req.body.name || !req.body.email || !req.body.surname || !req.body.password || !req.body.gender) {
-        return res.status(401).json({error: 'All fields must not be empty'})
-      }
       if (user) {
         return res.status(401).json({error: 'User with that email already exist'})
       }
-
       const hashPassword = await bcrypt.hash(req.body.password, 10);
       const newUser = new User({
         name: req.body.name,
@@ -111,9 +107,6 @@ router.post('/login', async (req, res, next) => {
       title: 'server error',
       error: err
     });
-    if (!req.body.email || !req.body.password) {
-      return res.status(401).json({error: 'Fields must not be empty'});
-    }
     if (!user) {
       return res.status(401).json({error: 'Invalid password or Email'});
     }
