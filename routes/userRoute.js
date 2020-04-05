@@ -115,10 +115,10 @@ router.post('/login', async (req, res, next) => {
       return res.status(401).json({error: 'Fields must not be empty'});
     }
     if (!user) {
-      return res.status(401).json({error: 'User not found'});
+      return res.status(401).json({error: 'Invalid password or Email'});
     }
     if (!bcrypt.compareSync(req.body.password, user.password)) {
-      return res.status(401).json({error: 'Invalid password'});
+      return res.status(401).json({error: 'Invalid password or Email'});
     }
 
     // if all is good then ...
