@@ -26,22 +26,10 @@ const router = Router();
 
 router.put('/edit', (req, res) => {
   try {
-    if (!req.body.name || !req.body.surname) {
-      return res.status(401).json({title: 'Name, Surname must not be empty'});
-    }
     const token = req.headers.token;
     jwt.verify(token, 'secretkey', async (err, decoded) => {
       if (err) return res.status(401).json({title: "error"});
-      await User.findByIdAndUpdate({_id: decoded.userId}, {
-        name: req.body.name,
-        surname: req.body.surname,
-        gender: req.body.gender,
-        country: req.body.country || '',
-        city: req.body.city || '',
-        address: req.body.address || '',
-        phonenumber: req.body.phonenumber || '',
-        cityIndex: req.body.cityIndex || ''
-      });
+      await User.findByIdAndUpdate({_id: decoded.userId}, req.body);
       return res.status(200).json({title: 'Updated'});
     });
   } catch (e) {
